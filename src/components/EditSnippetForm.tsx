@@ -1,0 +1,61 @@
+"use client";
+import React, { useState } from "react";
+import MonacoEditor from "@monaco-editor/react";
+import { Button } from "@/components/ui/button";
+import { saveSnippet } from "@/actions";
+import { useRouter } from "next/navigation";
+
+
+function EditSnippetForm({
+    id,
+    title,
+    code,
+}: {
+    id: string;
+    title: string;
+    code: string;
+}) {
+    const [snippetCode, setCode] = useState(code);
+    const [snippetTitle, setTitle] = useState(title);
+    const router = useRouter();
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        try {
+            await saveSnippet(Number(id), snippetCode);
+            router.push(`/snippets/${id}`); // Redirect to the snippet detail page after saving
+
+        } catch (error) {
+            console.error("Error saving snippet:", error);
+            alert("Failed to save snippet. Please try again.");
+        }
+    };
+
+    return (
+        <form className="space-y-4" onSubmit={handleSubmit}>
+            <div>
+                <label className="block mb-1 font-medium">Title</label>
+                <input
+                    className="w-full border rounded px-2 py-1"
+                    value={snippetTitle}
+                    onChange={(e) => setTitle(e.target.value)}
+                    placeholder="Snippet Title"
+                    required
+                />
+            </div>
+            <div>
+                <label className="block mb-1 font-medium">Code</label>
+                <MonacoEditor
+                    height="400px"
+                    language="javascript"
+                    theme="vs-dark"
+                    value={snippetCode}
+                    onChange={(value) => setCode(value || "")}
+                />
+            </div>
+            <Button type="submit">Save Snippet</Button>
+        </form>
+    );
+}
+
+export default EditSnippetForm;
