@@ -38,14 +38,8 @@ function EditSnippetForm({
     return (
         <form className="space-y-4" onSubmit={handleSubmit}>
             <div>
-                <label className="block mb-1 font-medium">Title</label>
-                <input
-                    className="w-full border rounded px-2 py-1"
-                    value={snippetTitle}
-                    onChange={(e) => setTitle(e.target.value)}
-                    placeholder="Snippet Title"
-                    required
-                />
+                <h2 className="block mb-1 font-medium">{snippetTitle}</h2>
+                
             </div>
             <div>
                 <label className="block mb-1 font-medium">Code</label>
