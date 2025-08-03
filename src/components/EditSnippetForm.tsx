@@ -5,7 +5,11 @@ import { Button } from "@/components/ui/button";
 import { saveSnippet } from "@/actions";
 import { useRouter } from "next/navigation";
 
-
+//here we cannot execute server side code directly,
+//so we use a server action to save the snippet
+//the only differnce between server action in client component and api call in client component is that
+//for server action you import the function directly and call it,using parameters
+//for api call you use fetch or axios to call the api endpoint
 function EditSnippetForm({
     id,
     title,
